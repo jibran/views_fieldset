@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Views fieldset style plugin code.
+ */
+
+/**
  * Implements hook_views_api().
  */
 function views_fieldset_views_api() {
@@ -10,7 +15,7 @@ function views_fieldset_views_api() {
 }
 
 /**
- * Implements hook_preprocess_HOOK() for theme_views_view_fieldset.
+ * Implements hook_preprocess_HOOK() for theme_views_view_fieldset().
  */
 function template_preprocess_views_view_fieldset(&$vars) {
   $view = $vars['view'];
