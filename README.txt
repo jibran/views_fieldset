@@ -26,4 +26,3 @@ views.
   format of the existing view.
 
 * After saving the display format choose the settings for fieldset.
-
