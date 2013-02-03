@@ -63,7 +63,7 @@ function template_preprocess_views_view_fieldset(&$vars) {
     if (isset($view->field[$field])) {
       $description = $style->get_field($id, $field);
       if ($view->field[$field]->options['label']) {
-        $description = $view->field[$field]->options['label'] . ': ' . $title;
+        $description = $view->field[$field]->options['label'] . ': ' . $description;
       }
       $description = strip_tags(htmlspecialchars_decode($description));
     }
