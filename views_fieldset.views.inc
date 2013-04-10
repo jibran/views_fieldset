@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * //Write Description
+ * Views integration for the views_fieldset module.
  */
 
 /**
