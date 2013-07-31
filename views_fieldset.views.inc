@@ -16,7 +16,7 @@ function views_fieldset_views_plugins() {
     'handler' => 'views_plugin_style_fieldset',
     'theme' => 'views_view_fieldset',
     'uses row plugin' => TRUE,
-    'uses fields' => FALSE,
+    'uses fields' => TRUE,
     'uses row class' => TRUE,
     'uses grouping' => FALSE,
     'uses options' => TRUE,
