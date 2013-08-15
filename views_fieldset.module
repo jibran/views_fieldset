@@ -6,20 +6,11 @@
  */
 
 /**
- * Implements hook_views_api().
- */
-function views_fieldset_views_api() {
-  return array(
-    'api' => 3.0,
-  );
-}
-
-/**
  * Implements hook_preprocess_HOOK() for theme_views_view_fieldset().
  */
-function template_preprocess_views_view_fieldset(&$vars) {
-  $view = $vars['view'];
-  $rows = $vars['rows'];
+function template_preprocess_views_view_fieldset(&$variables) {
+  $view = $variables['view'];
+  $rows = $variables['rows'];
   $style = $view->style_plugin;
   $options = $style->options;
 
@@ -29,6 +20,7 @@ function template_preprocess_views_view_fieldset(&$vars) {
   $count = 0;
   $max = count($rows);
   foreach ($rows as $id => $row) {
+    $html_id = $view->storage->id() . '-' . $view->current_display . '-row-' . ($id + 1);
     $classes = array();
     $count++;
     if ($default_row_class) {
@@ -45,14 +37,14 @@ function template_preprocess_views_view_fieldset(&$vars) {
       }
     }
 
-    if ($row_class = $view->style_plugin->get_row_class($id)) {
+    if ($row_class = $view->style_plugin->getRowClass($id)) {
       $classes[] = $row_class;
     }
 
     $field = $options['title'];
     $title = '';
     if (isset($view->field[$field])) {
-      $title = $style->get_field($id, $field);
+      $title = $style->getField($id, $field);
       if ($view->field[$field]->options['label']) {
         $title = $view->field[$field]->options['label'] . ': ' . $title;
       }
@@ -61,7 +53,7 @@ function template_preprocess_views_view_fieldset(&$vars) {
     $field = $options['description'];
     $description = '';
     if (isset($view->field[$field])) {
-      $description = $style->get_field($id, $field);
+      $description = $style->getField($id, $field);
       if ($view->field[$field]->options['label']) {
         $description = $view->field[$field]->options['label'] . ': ' . $description;
       }
@@ -71,19 +63,26 @@ function template_preprocess_views_view_fieldset(&$vars) {
     $element = array(
       '#title' => $title,
       '#type' => 'fieldset',
-      '#collapsed' => $options['collapsed'],
-      '#collapsible' => $options['collapsible'],
       '#children' => $row,
       '#parents' => array(),
       '#description' => $description,
       '#attributes' => array(
         'class' => $classes,
+        'id' => drupal_html_id($html_id),
       ),
     );
     $form_state = array();
-    $element = form_process_fieldset($element, $form_state);
+    $element = form_process_group($element, $form_state);
 
-    $vars['fieldsets'][] = $element;
+    $variables['fieldsets'][] = $element;
   }
 
+}
+
+/*
+ * Display a views row in fieldsets.
+ * @todo remove this once https://drupal.org/node/1911492 is committed.
+ */
+function theme_views_view_fieldset($variables) {
+  return drupal_render($variables['fieldsets']);
 }

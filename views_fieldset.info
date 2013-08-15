@@ -1,8 +1,0 @@
-name = Views Fieldset Style
-description = Shows views rows as fieldset
-
-core = 7.x
-dependencies[] = views
-package = Views
-
-files[] = views_plugin_style_fieldset.inc
