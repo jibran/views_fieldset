@@ -7,8 +7,6 @@
 
 namespace Drupal\views_fieldset\Plugin\views\style;
 
-use Drupal\Core\Annotation\Translation;
-use Drupal\views\Annotation\ViewsStyle;
 use Drupal\views\Plugin\views\style\StylePluginBase;
 
 /**
@@ -60,7 +58,7 @@ class FieldsetStyle extends StylePluginBase {
   /**
    * {@inheritdoc}
    */
-  function defineOptions() {
+  protected function defineOptions() {
 
     $options = parent::defineOptions();
     $options['title'] = array('default' => '');
@@ -72,7 +70,7 @@ class FieldsetStyle extends StylePluginBase {
   /**
    * {@inheritdoc}
    */
-  function buildOptionsForm(&$form, &$form_state) {
+public function buildOptionsForm(&$form, &$form_state) {
 
     parent::buildOptionsForm($form, $form_state);
     $options = array('' => t('- None -'));
