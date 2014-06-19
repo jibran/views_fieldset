@@ -17,7 +17,7 @@ use Drupal\views\Plugin\views\style\StylePluginBase;
  * @ViewsStyle(
  *   id = "fieldset",
  *   title = @Translation("Fieldset"),
- *   help = @Translation("Renders the full views output in a fieldset."),
+ *   help = @Translation("Displays rows as fieldset."),
  *   theme = "views_view_fieldset",
  *   display_types = {"normal"}
  * )
