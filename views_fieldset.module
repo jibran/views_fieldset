@@ -80,6 +80,11 @@ function template_preprocess_views_view_fieldset(&$vars) {
         'class' => $classes,
       ),
     );
+    // Leave first fieldset open if all the fieldset are collapsed and open
+    // first is TRUE.
+    if ($id == 0 && $options['collapsed'] && $options['open_first']) {
+      $element['#collapsed'] = FALSE;
+    }
     $form_state = array();
     $element = form_process_fieldset($element, $form_state);
 

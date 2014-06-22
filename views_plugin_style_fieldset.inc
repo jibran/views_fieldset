@@ -20,6 +20,7 @@ class views_plugin_style_fieldset extends views_plugin_style_default {
 
     $options['collapsible'] = array('default' => TRUE, 'bool' => TRUE);
     $options['collapsed'] = array('default' => FALSE, 'bool' => TRUE);
+    $options['open_first'] = array('default' => TRUE, 'bool' => TRUE);
     $options['title'] = array('default' => '');
     $options['description'] = array('default' => '');
 
@@ -47,6 +48,19 @@ class views_plugin_style_fieldset extends views_plugin_style_default {
       '#default_value' => $this->options['collapsed'],
       '#weight' => -49,
     );
+
+    $form['open_first'] = array(
+      '#title' => t('Leave first fieldset open'),
+      '#type' => 'checkbox',
+      '#description' => t('Check to leave first fieldset open.'),
+      '#default_value' => $this->options['open_first'],
+      '#weight' => -48,
+      '#states' => array(
+        'invisible' => array(
+          ':input[name="style_options[collapsed]"]' => array('checked' => FALSE),
+        ),
+      ),
+    );
     $options = array('' => t('- None -'));
     $field_labels = $this->display->handler->get_field_labels(TRUE);
     $options += $field_labels;
@@ -57,7 +71,7 @@ class views_plugin_style_fieldset extends views_plugin_style_default {
       '#options' => $options,
       '#default_value' => $this->options['title'],
       '#description' => t('Choose the title of fieldset.'),
-      '#weight' => -48,
+      '#weight' => -47,
     );
 
     $form['description'] = array(
@@ -66,7 +80,7 @@ class views_plugin_style_fieldset extends views_plugin_style_default {
       '#options' => $options,
       '#default_value' => $this->options['description'],
       '#description' => t('Optional fieldset description.'),
-      '#weight' => -47,
+      '#weight' => -46,
     );
   }
 
