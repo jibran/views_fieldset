@@ -7,6 +7,7 @@
 
 namespace Drupal\views_fieldset\Plugin\views\style;
 
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\views\Plugin\views\style\StylePluginBase;
 
 /**
@@ -70,28 +71,28 @@ class FieldsetStyle extends StylePluginBase {
   /**
    * {@inheritdoc}
    */
-public function buildOptionsForm(&$form, &$form_state) {
+  public function buildOptionsForm(&$form, FormStateInterface $form_state) {
 
     parent::buildOptionsForm($form, $form_state);
-    $options = array('' => t('- None -'));
+    $options = array('' => $this->t('- None -'));
     $field_labels = $this->displayHandler->getFieldLabels(TRUE);
     $options += $field_labels;
 
     $form['title'] = array(
       '#type' => 'select',
-      '#title' => t('Fieldset Title'),
+      '#title' => $this->t('Fieldset Title'),
       '#options' => $options,
       '#default_value' => $this->options['title'],
-      '#description' => t('Choose the title of fieldset.'),
+      '#description' => $this->t('Choose the title of fieldset.'),
       '#weight' => -48,
     );
 
     $form['description'] = array(
       '#type' => 'select',
-      '#title' => t('Fieldset Description'),
+      '#title' => $this->t('Fieldset Description'),
       '#options' => $options,
       '#default_value' => $this->options['description'],
-      '#description' => t('Optional fieldset description.'),
+      '#description' => $this->t('Optional fieldset description.'),
       '#weight' => -47,
     );
   }

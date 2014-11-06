@@ -8,34 +8,22 @@
 /**
  * Implements hook_preprocess_HOOK() for theme_views_view_fieldset().
  */
+
+use Drupal\Component\Utility\Html;
+use Drupal\Core\Render\Element\RenderElement;
+use Drupal\Core\Form\FormState;
+
 function template_preprocess_views_view_fieldset(&$variables) {
+  /** @var \Drupal\views\ViewExecutable $view */
   $view = $variables['view'];
   $rows = $variables['rows'];
   $style = $view->style_plugin;
   $options = $style->options;
+  $group = $view->storage->id() . '-' . $view->current_display;
 
-  $default_row_class = isset($options['default_row_class']) ? $options['default_row_class'] : FALSE;
-  $row_class_special = isset($options['row_class_special']) ? $options['row_class_special'] : FALSE;
-  // Set up striping values.
-  $count = 0;
-  $max = count($rows);
   foreach ($rows as $id => $row) {
-    $html_id = $view->storage->id() . '-' . $view->current_display . '-row-' . ($id + 1);
+    $html_id = Html::getUniqueId($group . '-row-' . ($id + 1));
     $classes = array();
-    $count++;
-    if ($default_row_class) {
-      $classes[] = 'views-row';
-      $classes[] = 'views-row-' . $count;
-    }
-    if ($row_class_special) {
-      $classes[] = 'views-row-' . ($count % 2 ? 'odd' : 'even');
-      if ($count == 1) {
-        $classes[] = 'views-row-first';
-      }
-      if ($count == $max) {
-        $classes[] = 'views-row-last';
-      }
-    }
 
     if ($row_class = $view->style_plugin->getRowClass($id)) {
       $classes[] = $row_class;
@@ -68,11 +56,12 @@ function template_preprocess_views_view_fieldset(&$variables) {
       '#description' => $description,
       '#attributes' => array(
         'class' => $classes,
-        'id' => drupal_html_id($html_id),
+        'id' => $html_id,
       ),
     );
-    $form_state = array();
-    $element = form_process_group($element, $form_state);
+    $form = array();
+    $form_state = new FormState();
+    $element = RenderElement::processGroup($element, $form_state, $form);
 
     $variables['fieldsets'][] = $element;
   }
